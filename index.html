@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Priority_VS_SRTF</title>
+</head>
+<body>
+    <section class="simulation">
+        <h1>Input a new process</h1>
+        <form action="">
+            <div class="input-div" id="data">
+                <label for="arrival-time">Arrival time</label>
+                <input type="text" id="arrival-time">
+                <label for="burst-time">Burst time</label>
+                <input type="text" id="burst-time">
+                <label for="priority">Priority</label>
+                <input type="text" id="priority">
+                <button type="submit">Add</button>  
+            </div>
+        </form>
+        <div class="display-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Process</th>
+                        <th>Arrival time</th>
+                        <th>Burst time</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="content-table"></tbody>
+            </table>
+        </div>
+        <button id="Start-sim-btn">Start simulation</button>
+        <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
+        
+    </section>
+
+    <section class="summary">
+        
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
