@@ -1,57 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Priority_VS_SRTF</title>
-</head>
-<body>
+  </head>
+  <body>
     <section class="simulation">
-        <h1>Input a new process</h1>
-        <form action="">
-            <div class="input-div" id="data">
-                <label for="arrival-time">Arrival time:</label>
-                <input type="text" id="arrival-time">
-                <label for="burst-time">Burst time:</label>
-                <input type="text" id="burst-time">
-                <label for="priority">Priority:</label>
-                <input type="text" id="priority">
-                <button type="submit" class="add-btn">Add</button>  
-            </div>
-        </form>
-        <div class="display-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Process</th>
-                        <th>Arrival time</th>
-                        <th>Burst time</th>
-                        <th>Priority</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="content-table"></tbody>
-            </table>
+      <h1>Input a new process</h1>
+      <form action="">
+        <div class="input-div" id="data">
+          <label for="arrival-time">Arrival time:</label>
+          <input type="text" id="arrival-time" />
+          <label for="burst-time">Burst time:</label>
+          <input type="text" id="burst-time" />
+          <label for="priority">Priority:</label>
+          <input type="text" id="priority" />
+          <button type="submit" class="add-btn">Add</button>
         </div>
-        <button id="Start-sim-btn">Start simulation</button>
-        <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
+      </form>
+      <div class="display-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Arrival time</th>
+              <th>Burst time</th>
+              <th>Priority</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="content-table"></tbody>
+        </table>
+      </div>
+      <button id="Start-sim-btn">Start simulation</button>
+      <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
     </section>
     <section class="gantt-chart">
-        <h1>SRTF Chart</h1>
-        <div class="chart-container">
-            <div class="chart" id="gantt-chart">
-                <table class="chart-table" >
-                    <tr id="srtfrow">
-                    </tr>
-                </table>
-            </div>
+      <h1>SRTF Chart</h1>
+      <div class="chart-container">
+        <div class="chart" id="gantt-chart">
+          <table class="chart-table">
+            <tr id="srtfrow"></tr>
+          </table>
         </div>
+      </div>
     </section>
-        <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
-    <section class="summary">
-        
+    <section class="gantt-chart">
+      <h1>Priority Scheduling Chart</h1>
+      <div class="chart-container" id="priority-chart-container">
+        <div class="chart">
+          <table class="chart-table">
+            <tr id="priorityRow"></tr>
+          </table>
+        </div>
+      </div>
     </section>
+
+    <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
+    <section class="summary"></section>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

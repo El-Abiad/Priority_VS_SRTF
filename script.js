@@ -116,12 +116,7 @@ function DisplayGanttChart() {
   for (let i = 0; i < gantt.length; i++) {
     let td = document.createElement("td");
     td.innerHTML =
-      gantt[i].name +
-      ":" +
-      " Start: " +
-      gantt[i].start +
-      " End: " +
-      gantt[i].end;
+      gantt[i].name + "<br/>" + gantt[i].start + " - " + gantt[i].end;
     td.style.width = (gantt[i].end - gantt[i].start) * 100 + "px";
     td.style.height = "50px";
     row.appendChild(td);
@@ -145,5 +140,85 @@ btnstartsim.addEventListener("click", function () {
   srtf();
   EnterDataToGanttChart();
   DisplayGanttChart();
+});
+
+// --------------------------PUT YOUR CODE BELOW THIS--------------------------------------------------
+// -------------------------- Priority Scheduling Logic --------------------------
+function priorityScheduling() {
+  let pProcesses = [];
+  for (let i = 0; i < numberOfProcesses; i++) {
+    pProcesses.push({
+      name: TableOfProcesses.rows[i].cells[0].innerHTML,
+      arrival: parseInt(TableOfProcesses.rows[i].cells[1].innerHTML),
+      burst: parseInt(TableOfProcesses.rows[i].cells[2].innerHTML),
+      priority: parseInt(TableOfProcesses.rows[i].cells[3].innerHTML),
+      remainingtime: parseInt(TableOfProcesses.rows[i].cells[2].innerHTML),
+      done: false,
+    });
+  }
+
+  let pTrack = [];
+  let pCurrentTime = 0;
+  let pCompletionTime = 0;
+
+  while (pCompletionTime < numberOfProcesses) {
+    let highestIdx = -1;
+    let minPriority = Infinity;
+
+    for (let i = 0; i < numberOfProcesses; i++) {
+      if (!pProcesses[i].done && pProcesses[i].arrival <= pCurrentTime) {
+        if (pProcesses[i].priority < minPriority) {
+          minPriority = pProcesses[i].priority;
+          highestIdx = i;
+        }
+      }
+    }
+
+    if (highestIdx == -1) {
+      pTrack.push("Idle");
+      pCurrentTime++;
+    } else {
+      pTrack.push(pProcesses[highestIdx].name);
+      pProcesses[highestIdx].remainingtime--;
+      pCurrentTime++;
+      if (pProcesses[highestIdx].remainingtime == 0) {
+        pProcesses[highestIdx].done = true;
+        pCompletionTime++;
+      }
+    }
+  }
+
+  let pRow = document.getElementById("priorityRow");
+  pRow.innerHTML = "";
+  let j = 0;
+  while (j < pTrack.length) {
+    let name = pTrack[j],
+      start = j;
+    while (j < pTrack.length && pTrack[j] == name) {
+      j++;
+    }
+    let end = j;
+
+    let td = document.createElement("td");
+    td.innerHTML = `${name}<br>${start}-${end}`;
+    td.style.width = (end - start) * 60 + "px";
+    pRow.appendChild(td);
+  }
+}
+
+btnstartsim.addEventListener("click", function () {
+  processes = [];
+  track = [];
+  gantt = [];
+  i = 0;
+  completionTime = 0;
+  currenttime = 0;
+  document.getElementById("srtfrow").innerHTML = "";
+  numberOfProcesses = TableOfProcesses.rows.length;
+  addProcess(processes);
+  srtf();
+  EnterDataToGanttChart();
+  DisplayGanttChart();
+  priorityScheduling();
 });
 // --------------------------PUT YOUR CODE BELOW THIS--------------------------------------------------
