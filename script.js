@@ -46,7 +46,7 @@ function deleteRow(btn) {
 
 // --------------------------PUT YOUR CODE BELOW THIS--------------------------------------------------
 //Below is the logic for the SRTF algorithm and the Gantt chart
-let row = document.getElementById("srtfrow");
+let SrtfRow = document.getElementById("srtfrow");
 let TableOfProcesses = document.getElementById("content-table");
 let btnstartsim = document.getElementById("Start-sim-btn");
 let numberOfProcesses = 0;
@@ -87,7 +87,8 @@ function srtf() {
   srtfFirstResponse = {};
 
   while (completionTime < numberOfProcesses) {
-    let shortest = -1, minRem = Infinity;
+    let shortest = -1,
+      minRem = Infinity;
     for (let i = 0; i < numberOfProcesses; i++) {
       if (
         !processes[i].done &&
@@ -103,7 +104,7 @@ function srtf() {
       currenttime++;
       continue;
     }
-    
+
     if (srtfFirstResponse[processes[shortest].name] === undefined) {
       srtfFirstResponse[processes[shortest].name] = currenttime;
     }
@@ -137,11 +138,9 @@ function DisplayGanttChart() {
       gantt[i].name + "<br/>" + gantt[i].start + " - " + gantt[i].end;
     td.style.width = (gantt[i].end - gantt[i].start) * 100 + "px";
     td.style.height = "50px";
-    row.appendChild(td);
+    SrtfRow.appendChild(td);
   }
 }
-
-
 
 // --------------------------PUT YOUR CODE BELOW THIS--------------------------------------------------
 // -------------------------- Priority Scheduling Logic --------------------------
@@ -157,7 +156,7 @@ function priorityScheduling() {
       done: false,
     });
   }
-   pTrack = [];
+  pTrack = [];
   let pCurrentTime = 0;
   let pCompletionTime = 0;
 
@@ -201,7 +200,7 @@ function priorityScheduling() {
 
     let td = document.createElement("td");
     td.innerHTML = `${name}<br>${start}-${end}`;
-    td.style.width = (end - start) * 60 + "px";
+    td.style.width = (end - start) * 100 + "px";
     pRow.appendChild(td);
   }
 }
@@ -213,8 +212,12 @@ btnstartsim.addEventListener("click", function () {
   i = 0;
   completionTime = 0;
   currenttime = 0;
-  document.getElementById("srtfrow").innerHTML = "";
+  SrtfRow.innerHTML = "";
   numberOfProcesses = TableOfProcesses.rows.length;
+  if (numberOfProcesses == 0) {
+    alert("Please add at least one process to start the simulation.");
+    return;
+  }
   addProcess(processes);
   srtf();
   EnterDataToGanttChart();
@@ -227,7 +230,9 @@ btnstartsim.addEventListener("click", function () {
 function displaySRTFStats() {
   const tbody = document.getElementById("srtf-stats-body");
   tbody.innerHTML = "";
-  let totalWT = 0, totalTAT = 0, totalRT = 0;
+  let totalWT = 0,
+    totalTAT = 0,
+    totalRT = 0;
 
   for (let i = 0; i < processes.length; i++) {
     const p = processes[i];
@@ -268,19 +273,20 @@ function displaySRTFStats() {
 function displayPriorityStats() {
   const tbody = document.getElementById("priorty-stats-body");
   tbody.innerHTML = "";
-  let totalWT = 0, totalTAT = 0, totalRT = 0;
+  let totalWT = 0,
+    totalTAT = 0,
+    totalRT = 0;
 
   for (let i = 0; i < numberOfProcesses; i++) {
     let name = TableOfProcesses.rows[i].cells[0].innerHTML;
     let arrival = parseInt(TableOfProcesses.rows[i].cells[1].innerHTML);
     let burst = parseInt(TableOfProcesses.rows[i].cells[2].innerHTML);
 
-
-    let ct = pTrack.lastIndexOf(name) + 1; 
-    let firstOccur = pTrack.indexOf(name); 
-    let rt = firstOccur - arrival;         
-    let tat = ct - arrival;               
-    let wt = tat - burst;                  
+    let ct = pTrack.lastIndexOf(name) + 1;
+    let firstOccur = pTrack.indexOf(name);
+    let rt = firstOccur - arrival;
+    let tat = ct - arrival;
+    let wt = tat - burst;
 
     totalWT += wt;
     totalTAT += tat;
@@ -294,20 +300,18 @@ function displayPriorityStats() {
       <td>${ct}</td>
       <td>${tat}</td>
       <td>${wt}</td>
-      <td>${rt}</td>`
-    ;
+      <td>${rt}</td>`;
     tbody.appendChild(row);
   }
 
   if (numberOfProcesses > 0) {
     const avgRow = document.createElement("tr");
-    avgRow.innerHTML =` 
+    avgRow.innerHTML = ` 
       <td colspan="4" style="font-weight:bold">Average</td>
       <td style="font-weight:bold">${(totalTAT / numberOfProcesses).toFixed(2)}</td>
       <td style="font-weight:bold">${(totalWT / numberOfProcesses).toFixed(2)}</td>
       <td style="font-weight:bold">${(totalRT / numberOfProcesses).toFixed(2)}</td>
-      `
-    ;
+      `;
     tbody.appendChild(avgRow);
   }
 }
@@ -333,93 +337,105 @@ function displayComparison() {
   const priAvgRT = parseFloat(priAvgRow.cells[3].textContent);
 
   const wtWinner =
-    srtfAvgWT < priAvgWT ? "SRTF" :
-    priAvgWT < srtfAvgWT ? "Priority" :
-    "Both algorithms (equal)";
+    srtfAvgWT < priAvgWT
+      ? "SRTF"
+      : priAvgWT < srtfAvgWT
+        ? "Priority"
+        : "Both algorithms (equal)";
 
   const rtWinner =
-    srtfAvgRT < priAvgRT ? "SRTF" :
-    priAvgRT < srtfAvgRT ? "Priority" :
-    "Both algorithms (equal)";
+    srtfAvgRT < priAvgRT
+      ? "SRTF"
+      : priAvgRT < srtfAvgRT
+        ? "Priority"
+        : "Both algorithms (equal)";
 
   const tatWinner =
-    srtfAvgTAT < priAvgTAT ? "SRTF" :
-    priAvgTAT < srtfAvgTAT ? "Priority" :
-    "Both algorithms (equal)";
+    srtfAvgTAT < priAvgTAT
+      ? "SRTF"
+      : priAvgTAT < srtfAvgTAT
+        ? "Priority"
+        : "Both algorithms (equal)";
 
-    const srtfTotal = srtfAvgWT + srtfAvgRT + srtfAvgTAT;
-const priTotal  = priAvgWT  + priAvgRT  + priAvgTAT;
+  const srtfTotal = srtfAvgWT + srtfAvgRT + srtfAvgTAT;
+  const priTotal = priAvgWT + priAvgRT + priAvgTAT;
 
-const recommendation =
-  srtfTotal < priTotal ? "SRTF" :
-  priTotal < srtfTotal ? "Priority" :
-  "Either algorithm";
+  const recommendation =
+    srtfTotal < priTotal
+      ? "SRTF"
+      : priTotal < srtfTotal
+        ? "Priority"
+        : "Either algorithm";
 
-
-document.getElementById("q1").innerHTML = `
+  document.getElementById("q1").innerHTML = `
   <span class="question-text">1. Which algorithm produced the lower average waiting time?</span>
   <span class="answer-text">➜ ${wtWinner} had the lower average waiting time (SRTF: ${srtfAvgWT.toFixed(2)}, Priority: ${priAvgWT.toFixed(2)}).</span>`;
 
-document.getElementById("q2").innerHTML = `
+  document.getElementById("q2").innerHTML = `
   <span class="question-text">2. Which algorithm produced the lower average response time?</span>
   <span class="answer-text">➜ ${rtWinner} had the lower average response time (SRTF: ${srtfAvgRT.toFixed(2)}, Priority: ${priAvgRT.toFixed(2)}).</span>`;
 
-document.getElementById("q3").innerHTML = `
+  document.getElementById("q3").innerHTML = `
   <span class="question-text">3. Did priority values improve treatment of urgent processes?</span>
   <span class="answer-text">➜ Yes. Priority scheduling gives urgent processes better service based on their assigned priority value.</span>`;
 
-document.getElementById("q4").innerHTML = `
+  document.getElementById("q4").innerHTML = `
   <span class="question-text">4. Did SRTF favor short jobs more aggressively?</span>
   <span class="answer-text">➜ Yes. SRTF always preempts in favor of the shortest remaining time, so short jobs are served earlier.</span>`;
 
-document.getElementById("q5").innerHTML = `
+  document.getElementById("q5").innerHTML = `
   <span class="question-text">5. Which algorithm would you recommend for the tested workload, and why?</span>
   <span class="answer-text">➜ ${
-    recommendation === "Either algorithm" 
-    ? "Either algorithm can be recommended, since both performed equally on this workload." 
-    : `${recommendation} is recommended because it achieved better overall average performance (WT + RT + TAT) on this workload.`
+    recommendation === "Either algorithm"
+      ? "Either algorithm can be recommended, since both performed equally on this workload."
+      : `${recommendation} is recommended because it achieved better overall average performance (WT + RT + TAT) on this workload.`
   }</span>`;
 
-document.getElementById("f1").innerHTML = `
+  document.getElementById("f1").innerHTML = `
   <span class="question-text">1. Which algorithm performed better?</span>
-  <span class="answer-text">➜ ${recommendation === "Either algorithm" 
-    ? "Both algorithms performed equally on this dataset." 
-    : `${recommendation} performed better on the selected dataset.`}</span>`;
+  <span class="answer-text">➜ ${
+    recommendation === "Either algorithm"
+      ? "Both algorithms performed equally on this dataset."
+      : `${recommendation} performed better on the selected dataset.`
+  }</span>`;
 
-document.getElementById("f2").innerHTML = `
+  document.getElementById("f2").innerHTML = `
   <span class="question-text">2. Which metrics were better under each algorithm?</span>
   <span class="answer-text">➜ SRTF: Avg WT=${srtfAvgWT.toFixed(2)}, TAT=${srtfAvgTAT.toFixed(2)}, RT=${srtfAvgRT.toFixed(2)} | Priority: Avg WT=${priAvgWT.toFixed(2)}, TAT=${priAvgTAT.toFixed(2)}, RT=${priAvgRT.toFixed(2)}.</span>`;
 
-document.getElementById("f3").innerHTML = `
+  document.getElementById("f3").innerHTML = `
   <span class="question-text">3. What is the main trade-off?</span>
   <span class="answer-text">➜ Efficiency vs policy: SRTF favors short jobs aggressively, while Priority respects urgency levels regardless of burst time.</span>`;
 
-document.getElementById("f4").innerHTML = `
+  document.getElementById("f4").innerHTML = `
   <span class="question-text">4. Which algorithm appeared fairer in practice?</span>
   <span class="answer-text">➜ Priority is fairer for urgent tasks; SRTF is fairer for short jobs. Fairness depends on the workload context.</span>`;
-
 }
-
 
 btnstartsim.addEventListener("click", function () {
   setTimeout(displayComparison, 0);
 });
 
-// reset button logic  
+// reset button logic
 document.getElementById("reset-btn").addEventListener("click", function () {
   tbody.innerHTML = "";
   count = 1;
-  document.getElementById("srtfrow").innerHTML = "";
+  SrtfRow.innerHTML = "";
   document.getElementById("priorityRow").innerHTML = "";
   document.getElementById("srtf-stats-body").innerHTML = "";
   document.getElementById("priorty-stats-body").innerHTML = "";
-  ["q1","q2","q3","q4","q5","f1","f2","f3","f4"].forEach(id => {
+  ["q1", "q2", "q3", "q4", "q5", "f1", "f2", "f3", "f4"].forEach((id) => {
     document.getElementById(id).innerHTML = "";
   });
-  processes = []; track = []; gantt = [];
-  i = 0; completionTime = 0; currenttime = 0;
+  processes = [];
+  track = [];
+  gantt = [];
+  i = 0;
+  completionTime = 0;
+  currenttime = 0;
   numberOfProcesses = 0;
-  srtfCompletionTimes = {}; srtfFirstResponse = {};
+  srtfCompletionTimes = {};
+  srtfFirstResponse = {};
   pTrack = [];
   form.reset();
 });
