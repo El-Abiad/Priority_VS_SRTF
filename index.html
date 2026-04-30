@@ -34,7 +34,24 @@
           <tbody id="content-table"></tbody>
         </table>
       </div>
-      <button id="Start-sim-btn">Start simulation</button>
+       
+      
+      
+      <!-- if u want to back to old verson without reset just delete it and remove comment from old (simulation) same in js&css or just tell me-->
+
+      <!-- new version with reset button -->
+    <div class="btn-group">
+       <button id="Start-sim-btn">Start simulation</button>
+     <button id="reset-btn">Reset</button>
+    </div>
+
+      <!-------------  Old simulation section 
+      
+      
+      <button id="Start-sim-btn">Start simulation</button> 
+       
+      ---------------->
+   
       <!-------------------------PUT YOUR CODE BELOW THIS---------------------------->
     </section>
     <section class="gantt-chart">
@@ -96,8 +113,33 @@
       <tbody id="priorty-stats-body"></tbody>
     </table>
   </div>
+    <!-------------------------Final Conclusion & Comparison Section---------------------------->
 </section>
-    <section class="summary"></section>
+   <section class="summary" id="comparison-section">
+  <h1>Comparison Summary</h1>
+
+  <div class="comparison-box">
+    <h2>Analysis Questions</h2>
+    <p id="q1"></p>
+    <p id="q2"></p>
+    <p id="q3"></p>
+    <p id="q4"></p>
+    <p id="q5"></p>
+  </div>
+
+  <div class="comparison-box">
+    <h2>Final Conclusion</h2>
+    <p id="f1"></p>
+    <p id="f2"></p>
+    <p id="f3"></p>
+    <p id="f4"></p>
+  </div>
+</section>
     <script src="script.js"></script>
+  
+
+
+
+    
   </body>
 </html>
